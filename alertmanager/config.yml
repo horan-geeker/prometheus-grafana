@@ -1,0 +1,20 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['lua-china']
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: 'web.hook'
+receivers:
+- name: 'web.hook'
+  webhook_configs:
+  - url: 'https://api.wangfengta.com/api/alarm?secretKey=558914de-d7f1-4bcf-a19d-288b9397e13d&appCode=485872819216846848&templateCode=485873035009593344&params={}'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+    equal: ['lua-china', 'lua-china-api']
+

@@ -4,9 +4,24 @@ services:
         image: prom/prometheus
         volumes:
             - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+            - ./prometheus/alert-rules.yml:/etc/prometheus/alert-rules.yml
             - ./prometheus/data:/prometheus
         ports:
             - 9090:9090
+        networks:
+            default:
+                aliases: 
+                - prometheus
+    alert-manager:
+        image: prom/alertmanager
+        volumes:
+            - ./alertmanager/config.yml:/etc/alertmanager/config.yml
+        ports:
+            - 9093:9093
+        networks:
+            default:
+                aliases: 
+                - alert-manager
     grafana:
         image: grafana/grafana
         volumes:
