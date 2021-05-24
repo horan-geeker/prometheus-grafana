@@ -1,0 +1,9 @@
+groups:
+- name: lua-china-api-alert-rule
+  rules:
+  - alert: LuaChinaApiAlert
+    # expr: sum(increase(kong_http_status{code="200",service="lua-china-api"}[30s])) > 1
+    expr: increase(prometheus_http_request_duration_seconds_bucket{handler="/graph"}[1m]) > 3
+    for: 1s
+    labels:
+      severity: critical
